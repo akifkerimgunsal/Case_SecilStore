@@ -1,0 +1,79 @@
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2c3e50;
+  --accent-color: #1abc9c;
+  --light-color: #ecf0f1;
+  --dark-color: #2c3e50;
+  --success-color: #2ecc71;
+  --warning-color: #f39c12;
+  --danger-color: #e74c3c;
+}
+
+html {
+  font-size: 14px;
+  position: relative;
+  min-height: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin-bottom: 80px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--dark-color);
+  background-color: #f8f9fa;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem var(--primary-color);
+}
+
+.navbar {
+  padding: 0.8rem 1rem;
+}
+
+.navbar-brand {
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+  border-color: #2980b9;
+}
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.table {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.table thead th {
+  background-color: var(--light-color);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.page-header {
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
+  border-bottom: 1px solid #eee;
+}

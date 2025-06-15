@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 20px;
+            padding-bottom: 60px;
+        }
+        .table {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .table thead th {
+            background-color: #ecf0f1;
+            border-bottom: 2px solid #3498db;
+        }
+        .navbar {
+            padding: 0.8rem 1rem;
+            margin-bottom: 20px;
+            background-color: #3498db !important;
+        }
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            border-color: #3498db;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            line-height: 60px;
+            background-color: #f5f5f5;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-primary shadow">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <i class="fas fa-cogs me-2"></i>Configuration Management
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Configuration Management</h1>
+        
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text">Application</span>
+                    <select id="applicationFilter" class="form-control">
+                        <option value="">All Applications</option>
+                        <!-- Application options will be loaded dynamically -->
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text">Search</span>
+                    <input type="text" id="searchFilter" class="form-control" placeholder="Configuration name...">
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addConfigModal">
+                    <i class="fas fa-plus"></i> New Configuration
+                </button>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Value</th>
+                            <th>IsActive</th>
+                            <th>ApplicationName</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="configTable">
+                        <!-- Configuration items will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Configuration Modal -->
+    <div class="modal fade" id="addConfigModal" tabindex="-1" role="dialog" aria-labelledby="addConfigModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addConfigModalLabel">New Configuration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addConfigForm">
+                        <input type="hidden" id="configId" value="">
+                        <div class="form-group mb-3">
+                            <label for="applicationName">Application Name</label>
+                            <input type="text" class="form-control" id="applicationName" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="configName">Configuration Name</label>
+                            <input type="text" class="form-control" id="configName" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="configValue">Configuration Value</label>
+                            <input type="text" class="form-control" id="configValue" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="configType">Configuration Type</label>
+                            <select class="form-control" id="configType" required>
+                                <option value="string">String</option>
+                                <option value="int">Integer</option>
+                                <option value="bool">Boolean</option>
+                                <option value="double">Double</option>
+                            </select>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="isActive" checked>
+                            <label class="form-check-label" for="isActive">Active</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveConfig">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editConfigModal" tabindex="-1" role="dialog" aria-labelledby="editConfigModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editConfigModalLabel">Edit Configuration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editConfigForm">
+                        <input type="hidden" id="editConfigId">
+                        <div class="form-group mb-3">
+                            <label for="editApplicationName">Application Name</label>
+                            <input type="text" class="form-control" id="editApplicationName" readonly>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editConfigName">Configuration Name</label>
+                            <input type="text" class="form-control" id="editConfigName" readonly>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editConfigValue">Configuration Value</label>
+                            <input type="text" class="form-control" id="editConfigValue" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editConfigType">Configuration Type</label>
+                            <select class="form-control" id="editConfigType" required>
+                                <option value="string">String</option>
+                                <option value="int">Integer</option>
+                                <option value="bool">Boolean</option>
+                                <option value="double">Double</option>
+                            </select>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="editIsActive">
+                            <label class="form-check-label" for="editIsActive">Active</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="updateConfig">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfigModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfigModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConfigModalLabel">Delete Configuration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this configuration?</p>
+                    <input type="hidden" id="deleteConfigId">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer text-muted bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    &copy; <span id="currentYear"></span> - Configuration Management
+                </div>
+                <div class="col-md-6 text-end">
+                    <a href="https://github.com" target="_blank" class="btn btn-sm btn-outline-secondary">
+                        <i class="fab fa-github me-2"></i>View on GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Bootstrap 5 modal objects
+        let addConfigModal, editConfigModal, deleteConfigModal;
+        let applications = new Set();
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Bootstrap modals
+            addConfigModal = new bootstrap.Modal(document.getElementById('addConfigModal'));
+            editConfigModal = new bootstrap.Modal(document.getElementById('editConfigModal'));
+            deleteConfigModal = new bootstrap.Modal(document.getElementById('deleteConfigModal'));
+            
+            // Load configurations from API
+            loadConfigurations();
+            
+            // Event listeners
+            document.getElementById('saveConfig').addEventListener('click', saveConfiguration);
+            document.getElementById('updateConfig').addEventListener('click', updateConfiguration);
+            document.getElementById('confirmDelete').addEventListener('click', deleteConfiguration);
+            
+            // Filtering
+            document.getElementById('applicationFilter').addEventListener('change', filterTable);
+            document.getElementById('searchFilter').addEventListener('input', filterTable);
+            
+            // Reset forms when modals are closed
+            document.getElementById('addConfigModal').addEventListener('hidden.bs.modal', function() {
+                document.getElementById('addConfigForm').reset();
+            });
+            
+            document.getElementById('editConfigModal').addEventListener('hidden.bs.modal', function() {
+                document.getElementById('editConfigForm').reset();
+            });
+        });
+        
+        function loadConfigurations() {
+            fetch('/api/configurations')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('configTable');
+                    tableBody.innerHTML = '';
+                    
+                    data.forEach(config => {
+                        // Add to applications set for filter
+                        if (config.applicationName) {
+                            applications.add(config.applicationName);
+                        }
+                        
+                        const row = document.createElement('tr');
+                        row.setAttribute('data-app', config.applicationName || '');
+                        row.setAttribute('data-name', config.name || '');
+                        
+                        row.innerHTML = `
+                            <td>${config.id || ''}</td>
+                            <td>${config.name || ''}</td>
+                            <td>${config.type || ''}</td>
+                            <td>${config.value || ''}</td>
+                            <td>${config.isActive ? '1' : '0'}</td>
+                            <td>${config.applicationName || ''}</td>
+                            <td>
+                                <button class="btn btn-sm btn-info edit-btn" data-id="${config.id}">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-sm btn-danger delete-btn" data-id="${config.id}">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                    
+                    // Populate application filter
+                    const appFilter = document.getElementById('applicationFilter');
+                    applications.forEach(app => {
+                        const option = document.createElement('option');
+                        option.value = app;
+                        option.textContent = app;
+                        appFilter.appendChild(option);
+                    });
+                    
+                    // Add event listeners to buttons
+                    document.querySelectorAll('.edit-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const id = this.getAttribute('data-id');
+                            editConfig(id);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.delete-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const id = this.getAttribute('data-id');
+                            document.getElementById('deleteConfigId').value = id;
+                            deleteConfigModal.show();
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading configurations:', error);
+                    alert('Error loading configurations. Please check the console for details.');
+                });
+        }
+        
+        function filterTable() {
+            const appFilter = document.getElementById('applicationFilter').value.toLowerCase();
+            const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
+            
+            document.querySelectorAll('#configTable tr').forEach(row => {
+                const app = row.getAttribute('data-app').toLowerCase();
+                const name = row.getAttribute('data-name').toLowerCase();
+                
+                const appMatch = appFilter === '' || app === appFilter;
+                const nameMatch = searchFilter === '' || name.includes(searchFilter);
+                
+                if (appMatch && nameMatch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        function saveConfiguration() {
+            const config = {
+                applicationName: document.getElementById('applicationName').value,
+                name: document.getElementById('configName').value,
+                value: document.getElementById('configValue').value,
+                type: document.getElementById('configType').value,
+                isActive: document.getElementById('isActive').checked
+            };
+            
+            if (!config.applicationName || !config.name || !config.value) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            fetch('/api/configurations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(config)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                addConfigModal.hide();
+                loadConfigurations();
+            })
+            .catch(error => {
+                console.error('Error saving configuration:', error);
+                alert('Error saving configuration. Please check the console for details.');
+            });
+        }
+        
+        function editConfig(id) {
+            fetch(`/api/configurations/${id}`)
+                .then(response => response.json())
+                .then(config => {
+                    document.getElementById('editConfigId').value = config.id;
+                    document.getElementById('editApplicationName').value = config.applicationName;
+                    document.getElementById('editConfigName').value = config.name;
+                    document.getElementById('editConfigValue').value = config.value;
+                    document.getElementById('editConfigType').value = config.type;
+                    document.getElementById('editIsActive').checked = config.isActive;
+                    
+                    editConfigModal.show();
+                })
+                .catch(error => {
+                    console.error('Error loading configuration details:', error);
+                    alert('Error loading configuration details. Please check the console for details.');
+                });
+        }
+        
+        function updateConfiguration() {
+            const id = document.getElementById('editConfigId').value;
+            const config = {
+                id: id,
+                applicationName: document.getElementById('editApplicationName').value,
+                name: document.getElementById('editConfigName').value,
+                value: document.getElementById('editConfigValue').value,
+                type: document.getElementById('editConfigType').value,
+                isActive: document.getElementById('editIsActive').checked
+            };
+            
+            if (!config.applicationName || !config.name || !config.value) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            fetch(`/api/configurations/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(config)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                editConfigModal.hide();
+                loadConfigurations();
+            })
+            .catch(error => {
+                console.error('Error updating configuration:', error);
+                alert('Error updating configuration. Please check the console for details.');
+            });
+        }
+        
+        function deleteConfiguration() {
+            const id = document.getElementById('deleteConfigId').value;
+            
+            fetch(`/api/configurations/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                deleteConfigModal.hide();
+                loadConfigurations();
+            })
+            .catch(error => {
+                console.error('Error deleting configuration:', error);
+                alert('Error deleting configuration. Please check the console for details.');
+            });
+        }
+    </script>
+</body>
+</html> 

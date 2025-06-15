@@ -1,0 +1,12 @@
+C:\Users\akifk\OneDrive\Masaüstü\İşler\Case_SecilStore\SecilStore_ConfigLibrary\bin\Debug\net8.0\SecilStore_ConfigLibrary.deps.json
+C:\Users\akifk\OneDrive\Masaüstü\İşler\Case_SecilStore\SecilStore_ConfigLibrary\bin\Debug\net8.0\SecilStore_ConfigLibrary.dll
+C:\Users\akifk\OneDrive\Masaüstü\İşler\Case_SecilStore\SecilStore_ConfigLibrary\bin\Debug\net8.0\SecilStore_ConfigLibrary.pdb
+C:\Users\akifk\OneDrive\Masaüstü\İşler\Case_SecilStore\SecilStore_ConfigLibrary\obj\Debug\net8.0\SecilStore_ConfigLibrary.csproj.AssemblyReference.cache
+C:\Users\akifk\OneDrive\Masaüstü\İşler\Case_SecilStore\SecilStore_ConfigLibrary\obj\Debug\net8.0\SecilStore_ConfigLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\akifk\OneDrive\Masaüstü\İşler\Case_SecilStore\SecilStore_ConfigLibrary\obj\Debug\net8.0\SecilStore_ConfigLibrary.AssemblyInfoInputs.cache
+C:\Users\akifk\OneDrive\Masaüstü\İşler\Case_SecilStore\SecilStore_ConfigLibrary\obj\Debug\net8.0\SecilStore_ConfigLibrary.AssemblyInfo.cs
+C:\Users\akifk\OneDrive\Masaüstü\İşler\Case_SecilStore\SecilStore_ConfigLibrary\obj\Debug\net8.0\SecilStore_ConfigLibrary.csproj.CoreCompileInputs.cache
+C:\Users\akifk\OneDrive\Masaüstü\İşler\Case_SecilStore\SecilStore_ConfigLibrary\obj\Debug\net8.0\SecilStore_ConfigLibrary.dll
+C:\Users\akifk\OneDrive\Masaüstü\İşler\Case_SecilStore\SecilStore_ConfigLibrary\obj\Debug\net8.0\refint\SecilStore_ConfigLibrary.dll
+C:\Users\akifk\OneDrive\Masaüstü\İşler\Case_SecilStore\SecilStore_ConfigLibrary\obj\Debug\net8.0\SecilStore_ConfigLibrary.pdb
+C:\Users\akifk\OneDrive\Masaüstü\İşler\Case_SecilStore\SecilStore_ConfigLibrary\obj\Debug\net8.0\ref\SecilStore_ConfigLibrary.dll

@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\akifk\\OneDrive\\Masa\u00FCst\u00FC\\\u0130\u015Fler\\Case_SecilStore\\Case_SecilStore\\",
+  "Documents": [],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
