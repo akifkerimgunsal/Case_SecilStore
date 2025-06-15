@@ -2,7 +2,7 @@
 
 ## Proje Hakkında
 
-SecilStore, dağıtık uygulamalar için dinamik ve merkezi bir konfigürasyon yönetim sistemidir. Bu sistem, web.config, app.config, appsettings.json gibi dosyalarda tutulan yapılandırma değerlerinin ortak ve dinamik bir yapıyla erişilebilir olmasını ve deployment veya restart gerektirmeden güncellenebilmesini sağlar.
+Bu case dağıtık uygulamalar için dinamik ve merkezi bir konfigürasyon yönetim sistemini uygulamaktadır. Bu sistem, web.config, app.config, appsettings.json gibi dosyalarda tutulan yapılandırma değerlerinin ortak ve dinamik bir yapıyla erişilebilir olmasını ve deployment veya restart gerektirmeden güncellenebilmesini sağlar.
 
 ## Temel Özellikler
 
